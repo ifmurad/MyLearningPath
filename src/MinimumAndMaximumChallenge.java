@@ -14,7 +14,7 @@ public class MinimumAndMaximumChallenge {
                 if(counter == 0 || userInput < min) {
                     min = userInput;
                 }
-                if(userInput > max) {
+                if(counter == 0 || userInput > max) {
                     max = userInput;
                 }
             } else {
@@ -25,5 +25,7 @@ public class MinimumAndMaximumChallenge {
         }
         System.out.println("Minimum number = " + min);
         System.out.println("Maximum number = " + max);
+
+        scanner.close();
     }
 }
