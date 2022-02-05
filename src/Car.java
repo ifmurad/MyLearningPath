@@ -1,28 +1,33 @@
-public class Car extends Vehicle {
-
+public class Car {
+    private boolean engine;
+    private int cylinders;
+    private String name;
     private int wheels;
-    private int doors;
-    private int gears;
-    private boolean isManual;
 
-    private int currentGear;
-
-    public Car(String name, String size, int wheels, int doors, int gears, boolean isManual) {
-        super(name, size);
-        this.wheels = wheels;
-        this.doors = doors;
-        this.gears = gears;
-        this.isManual = isManual;
-        this.currentGear = 1;
+    public Car(int cylinders, String name) {
+        this.cylinders = cylinders;
+        this.name = name;
+        this.wheels = 4;
+        this.engine =true;
     }
 
-    public void changeGear(int currentGear) {
-        this.currentGear = currentGear;
-        System.out.println("Car.setCurrentGear(): Changed to " + this.currentGear + " gear.");
+    public String startEngine() {
+        return getClass().getSimpleName() + " -> startEngine()";
     }
 
-     public void changeVelocity(int speed, int direction) {
-        System.out.println("Car.changeVelocity(): Velocity " + speed + " direction " + direction);
-        move(speed, direction);
-     }
+    public String accelerate() {
+        return getClass().getSimpleName() + " -> accelerate()";
+    }
+
+    public String brake() {
+        return getClass().getSimpleName() + " -> brake()";
+    }
+
+    public int getCylinders() {
+        return cylinders;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

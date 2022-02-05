@@ -1,6 +1,15 @@
 public class Wall {
     private double width;
     private double height;
+    private String direction;
+
+    public Wall(String direction) {
+        this.direction = direction;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
 
     public Wall() {
 
