@@ -67,25 +67,42 @@ public class MobilePhoneRunner {
     private static void updateContact() {
         System.out.println("Enter contact name you want to replace:\n");
         String oldName = scanner.nextLine();
-        System.out.println("Enter new contact name:\n");
-        String newName = scanner.nextLine();
-        System.out.println("Enter new phone number:\n");
-        String newPhoneNumber = scanner.nextLine();
-        Contact newContact = new Contact(newName, newPhoneNumber);
-        mobilePhone.updateContact(mobilePhone.queryContact(oldName), newContact);
+        if(mobilePhone.queryContact(oldName) == null) {
+            System.out.println(oldName + " is not found in the list of contacts.");
+        } else {
+            System.out.println("Enter new contact name:\n");
+            String newName = scanner.nextLine();
+            if(mobilePhone.queryContact(newName) != null) {
+                System.out.println(newName + " is already in the list of contacts.");
+            } else {
+                System.out.println("Enter new phone number:\n");
+                String newPhoneNumber = scanner.nextLine();
+                Contact newContact = new Contact(newName, newPhoneNumber);
+                mobilePhone.updateContact(mobilePhone.queryContact(oldName), newContact);
+            }
+        }
     }
 
     private static void removeContact() {
         System.out.println("Enter contact name you want to delete:\n");
         String name = scanner.nextLine();
-        mobilePhone.removeContact(mobilePhone.queryContact(name));
+        Contact contact = mobilePhone.queryContact(name);
+        if(contact != null) {
+            mobilePhone.removeContact(mobilePhone.queryContact(name));
+        } else {
+            System.out.println(name + " is not found in the contact list.");
+        }
     }
 
     private static void queryContact() {
         System.out.println("Enter contact name:\n");
         String name = scanner.nextLine();
         Contact contact = mobilePhone.queryContact(name);
-        System.out.println("Phone number of " + name + " is " + contact.getPhoneNumber());
+        if(contact != null) {
+            System.out.println("Phone number of " + name + " is " + contact.getPhoneNumber());
+        } else {
+            System.out.println(name + " is not found in the contact list.");
+        }
     }
 
 }

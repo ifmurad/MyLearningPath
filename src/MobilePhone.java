@@ -55,7 +55,7 @@ public class MobilePhone {
 
     public Contact queryContact(String name) {
         if(findContact(name) < 0) {
-            System.out.println(name + " is not found is the list of contacts.");
+            //System.out.println(name + " is not found is the list of contacts.");
             return null;
         }
         return myContacts.get(findContact(name));
