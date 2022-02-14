@@ -7,6 +7,7 @@ public class Customer {
     public Customer(String name, double initialTransaction) {
         this.name = name;
         this.transactions = new ArrayList<>();
+        this.transactions.add(initialTransaction);
     }
 
     public String getName() {
