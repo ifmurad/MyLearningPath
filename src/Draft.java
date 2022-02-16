@@ -1,50 +1,126 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Scanner;
 
 public class Draft {
     public static void main(String[] args) {
-        Draft customer = new Draft("Tim", 54.96);
-        Draft anotherCustomer;
-        anotherCustomer = customer;
-        anotherCustomer.setBalance(12.18);
-        System.out.println("Balance for customer " + customer.getName() + " is " + customer.getBalance());
+        LinkedList<String> placesToVisit = new LinkedList<>();
+        addInOrder(placesToVisit, "Sydney");
+        addInOrder(placesToVisit, "Melbourne");
+        addInOrder(placesToVisit, "Brisbane");
+        addInOrder(placesToVisit, "Perth");
+        addInOrder(placesToVisit, "Canberra");
+        addInOrder(placesToVisit, "Adelaide");
+        addInOrder(placesToVisit, "Darwin");
 
-        ArrayList<Integer> intList = new ArrayList<>();
+        printList(placesToVisit);
+        addInOrder(placesToVisit, "Alice Springs");
+        addInOrder(placesToVisit, "Darwin");
+        printList(placesToVisit);
+        visit(placesToVisit);
+    }
 
-        intList.add(1);
-        intList.add(3);
-        intList.add(4);
+    private static void printList(LinkedList<String> linkedList) {
+        for (String s : linkedList) {
+            System.out.println("Now visiting " + s);
+        }
+        System.out.println("=========================");
+    }
 
-        for (int i = 0; i<intList.size(); i++) {
-            System.out.println(i + ": " + intList.get(i));
+    private static void addInOrder(LinkedList<String> linkedList, String newCity) {
+
+        for (String s : linkedList) {
+            int comparison = s.compareTo(newCity);
+            if (comparison == 0) {
+                System.out.println(newCity + " is already included as a destination");
+                return;
+            } else if(comparison > 0) {
+                linkedList.add(linkedList.indexOf(s), newCity);
+                return;
+            }
+        }
+        linkedList.add(newCity);
+    }
+    private static void visit(LinkedList cities) {
+        Scanner scanner = new Scanner(System.in);
+        boolean quit = false;
+        boolean goingForward = false;
+        ListIterator listIterator = cities.listIterator();
+
+        if(cities.isEmpty()) {
+            System.out.println("No cities in the itinerary");
+            return;
+        } else {
+            System.out.println("Now visiting " + listIterator.next());
+            printMenu();
         }
 
-        intList.add(1, 2);
-        for (int i = 0; i<intList.size(); i++) {
-            System.out.println(i + ": " + intList.get(i));
+        while (!quit) {
+            int action = scanner.nextInt();
+            scanner.nextLine();
+            switch (action) {
+                case 0 -> {
+                    System.out.println("Holiday (Vacation) over");
+                    quit = true;
+                }
+                case 1 -> {
+                    if (!goingForward) {
+                        if (listIterator.hasNext()) {
+                            listIterator.next();
+                            goingForward = true;
+                        }
+                    }
+                    if (listIterator.hasNext()) {
+                        System.out.println("Now visiting " + listIterator.next());
+                    } else {
+                        System.out.println("Reached the end of the list");
+                        goingForward = false;
+                    }
+                }
+                case 2 -> {
+                    if (goingForward) {
+                        if (listIterator.hasPrevious()) {
+                            listIterator.previous();
+                            goingForward = false;
+                        }
+                    }
+                    if (listIterator.hasPrevious()) {
+                        System.out.println("Now visiting " + listIterator.previous());
+                    } else {
+                        System.out.println("We are at the start of the list");
+                        goingForward = true;
+                    }
+                }
+                case 3 -> printMenu();
+            }
         }
     }
 
-    private String name;
-    private double balance;
-
-    public Draft(String name, double balance) {
-        this.name = name;
-        this.balance = balance;
+    private static void printMenu() {
+        System.out.println("Available action:\npress ");
+        System.out.println("""
+                0 - to quit
+                1 - go to next city
+                2 - go to previous city
+                3 - print menu options
+                """);
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public double getBalance() {
-        return balance;
-    }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
