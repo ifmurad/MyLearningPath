@@ -49,11 +49,4 @@ public class Album {
         }
         return false;
     }
-
-    public void printSongs() {
-        System.out.println("This album contains following songs:");
-        for (Song song : songs) {
-            System.out.println(song.toString());
-        }
-    }
 }

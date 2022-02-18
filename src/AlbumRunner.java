@@ -4,7 +4,7 @@ import java.util.ListIterator;
 import java.util.Scanner;
 
 public class AlbumRunner {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         ArrayList<Album> albums = new ArrayList<>();
 
@@ -44,7 +44,6 @@ public class AlbumRunner {
         play(playList);
     }
     private static void printPlayList(LinkedList<Song> playList) {
-        System.out.println("This playlist contains following songs:");
         for (Song song : playList) {
             System.out.println(song.toString());
         }
@@ -52,25 +51,66 @@ public class AlbumRunner {
 
     private static void play(LinkedList<Song> playList) {
         boolean quit = false;
-        ListIterator playListIterator = playList.listIterator();
+        boolean goingForward = false;
+        Song currentSong = playList.getFirst();
+        ListIterator<Song> playListIterator = playList.listIterator();
         menuOfOptions();
-        System.out.println("Playing music:\n" + playList.get(0).toString());
+        System.out.println("Playing music:\n" + currentSong + "\n");
         while (!quit) {
+            System.out.println("Choose an option to perform:");
             boolean flag = false;
             int option = 0;
             while (!flag) {
                 if (scanner.hasNextInt()) {
                     option = scanner.nextInt();
-                    scanner.nextLine();
+                    if(option < 0 || option > 4) {
+                        System.out.println("You have to enter an integer between 0 and 4 inclusively.");
+                    }
                     flag = true;
+                } else {
+                    System.out.println("You have to enter an integer between 0 and 4 inclusively.\n" +
+                            "Choose an option to perform:");
                 }
+                scanner.nextLine();
             }
             switch (option) {
-                case 0:
-                    quit = true;
-                    break;
-                case 1:
-                    System.out.println("Playing music:\n" + playListIterator.next());
+                case 0 -> quit = true;
+                case 1 -> {
+                    if(!goingForward) {
+                        currentSong = playListIterator.next();
+                        goingForward = true;
+                    }
+                    if(playListIterator.hasNext()) {
+                        currentSong = playListIterator.next();
+                        System.out.println("Playing music:\n" + currentSong + "\n");
+                    } else {
+                        currentSong = playList.getFirst();
+                        while (playListIterator.hasPrevious()) {
+                            playListIterator.previous();
+                        }
+                        System.out.println("Playing music:\n" + currentSong + "\n");
+                        goingForward = false;
+                    }
+                }
+                case 2 -> {
+                    if(goingForward) {
+                        currentSong = playListIterator.previous();
+                        goingForward = false;
+                    }
+                    if(playListIterator.hasPrevious()) {
+                        currentSong = playListIterator.previous();
+                        System.out.println("Playing music:\n" + currentSong + "\n");
+                    } else {
+                        currentSong = playList.getLast();
+                        while (playListIterator.hasNext()) {
+                            playListIterator.next();
+                        }
+                        System.out.println("Playing music:\n" + currentSong + "\n");
+                        goingForward = true;
+                    }
+                }
+                case 3 -> System.out.println("Playing music:\n" + currentSong + "\n");
+                case 4 -> printPlayList(playList);
             }
         }
     }
