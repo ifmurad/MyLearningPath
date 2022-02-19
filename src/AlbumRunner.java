@@ -44,9 +44,11 @@ public class AlbumRunner {
         play(playList);
     }
     private static void printPlayList(LinkedList<Song> playList) {
+        System.out.println("===================================");
         for (Song song : playList) {
-            System.out.println(song.toString());
+            System.out.println(song);
         }
+        System.out.println("===================================");
     }
 
     private static void play(LinkedList<Song> playList) {
@@ -54,8 +56,13 @@ public class AlbumRunner {
         boolean goingForward = false;
         Song currentSong = playList.getFirst();
         ListIterator<Song> playListIterator = playList.listIterator();
-        menuOfOptions();
-        System.out.println("Playing music:\n" + currentSong + "\n");
+        if(playList.size() == 0) {
+            System.out.println("No songs in playlist");
+            return;
+        } else {
+            System.out.println("Playing music:\n" + currentSong + "\n");
+            menuOfOptions();
+        }
         while (!quit) {
             System.out.println("Choose an option to perform:");
             boolean flag = false;
@@ -63,12 +70,12 @@ public class AlbumRunner {
             while (!flag) {
                 if (scanner.hasNextInt()) {
                     option = scanner.nextInt();
-                    if(option < 0 || option > 4) {
-                        System.out.println("You have to enter an integer between 0 and 4 inclusively.");
+                    if(option < 0 || option > 6) {
+                        System.out.println("You have to enter an integer between 0 and 6 inclusively.");
                     }
                     flag = true;
                 } else {
-                    System.out.println("You have to enter an integer between 0 and 4 inclusively.\n" +
+                    System.out.println("You have to enter an integer between 0 and 6 inclusively.\n" +
                             "Choose an option to perform:");
                 }
                 scanner.nextLine();
@@ -110,7 +117,12 @@ public class AlbumRunner {
                     }
                 }
                 case 3 -> System.out.println("Playing music:\n" + currentSong + "\n");
-                case 4 -> printPlayList(playList);
+                case 4 -> {
+                    playListIterator.remove();
+                    System.out.println("Current song is successfully removed from the playlist.");
+                }
+                case 5 -> printPlayList(playList);
+                case 6 -> menuOfOptions();
             }
         }
     }
@@ -124,7 +136,9 @@ public class AlbumRunner {
                 1 - Skip forward to the next song
                 2 - Skip backwards to the previous song
                 3 - Replay the current song
-                4 - List the songs
+                4 - Remove the song
+                5 - List the songs
+                6 - Print available actions
                 """);
     }
 }
